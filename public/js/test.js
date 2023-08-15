@@ -26,8 +26,6 @@ function getCorrectives () {
             form.appendChild(flipClosed);
             section.appendChild(form);
 
-
-
             main.appendChild(section);
         }
     })

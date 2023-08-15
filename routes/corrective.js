@@ -23,7 +23,8 @@ router.get('/', (req, res) => {
             }
         console.log('Connected to DB');
 
-        const query = 'SELECT * FROM CORRECTIVE';
+        const query = 'SELECT c.*, ct.NC_TREND FROM CORRECTIVE c left join CORRECTIVE_TREND ct on c.CORRECTIVE_ID = ct.CORRECTIVE_ID where CLOSED = "N" ORDER BY c.CORRECTIVE_ID DESC';
+        // const query = 'SELECT c.*, ct.NC_TREND FROM CORRECTIVE c left join CORRECTIVE_TREND ct on c.CORRECTIVE_ID = ct.CORRECTIVE_ID where CLOSED = "N" ORDER BY c.CORRECTIVE_ID DESC';
         connection.query(query, (err, rows, fields) => {
             if (err) {
                 console.log('Failed to query for corrective actions: ' + err);
