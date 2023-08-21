@@ -4,7 +4,7 @@ const exp = require("constants");
 const cors = require("cors");
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(cors());
 
@@ -16,8 +16,8 @@ app.use((req, res, next) => {
   next();
 });
 
-const correctiveRoutes = require("./routes/corrective");
-app.use("/corrective", correctiveRoutes);
+const expiryRoutes = require("./routes/expiry");
+app.use("/expiry", expiryRoutes);
 
 app.listen(port, () => {
   //   try {

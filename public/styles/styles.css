@@ -20,6 +20,7 @@
     --shadow-dark: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     max-width: 760px;
     background-color: #A91730;
+    --background-color: #A91730;
 }
 section {
     margin: 2rem auto;
@@ -46,4 +47,73 @@ section h2{
 
 .assignedTo{
     margin-top: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+    background-color: var(--secondary-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+table thead tr {
+    background-color: var(--background-color);
+    color: var(--text-color-light);
+}
+table th, table td {
+    padding: 0.5rem;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+table tbody tr:nth-child(even) {
+    background-color: var(--tertiary-color);
+}
+
+.logo img {
+    max-width: 200px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 10px;
+}
+#main-nav {
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+#main-nav a {
+    color: var(--text-color-light);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.2rem;
+    /* text-transform: uppercase; */
+    letter-spacing: 1px;
+    margin-right: 1rem;
+    transition: var(--transition);
+}
+#entryform {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: var(--background-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+#entryform label, #entryform input, #entryform textarea, #entryform select {
+    /* display: block; */
+    width: 99%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
 }

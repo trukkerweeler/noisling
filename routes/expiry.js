@@ -6,7 +6,7 @@ const router = express.Router();
 const mysql = require('mysql');
 
 
-// Get all corrective actions
+// Get all expiry records
 router.get('/', (req, res) => {
     try {
         const connection = mysql.createConnection({
@@ -23,8 +23,7 @@ router.get('/', (req, res) => {
             }
         console.log('Connected to DB');
 
-        const query = 'SELECT c.*, ct.NC_TREND FROM CORRECTIVE c left join CORRECTIVE_TREND ct on c.CORRECTIVE_ID = ct.CORRECTIVE_ID where CLOSED = "N" ORDER BY c.CORRECTIVE_ID DESC';
-        // const query = 'SELECT c.*, ct.NC_TREND FROM CORRECTIVE c left join CORRECTIVE_TREND ct on c.CORRECTIVE_ID = ct.CORRECTIVE_ID where CLOSED = "N" ORDER BY c.CORRECTIVE_ID DESC';
+        const query = 'SELECT * FROM EXPIRATION e where DISPOSITION != "D" ORDER BY EXPIRATION_ID DESC';
         connection.query(query, (err, rows, fields) => {
             if (err) {
                 console.log('Failed to query for corrective actions: ' + err);

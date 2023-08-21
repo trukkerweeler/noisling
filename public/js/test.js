@@ -1,4 +1,4 @@
-const url = 'http://localhost:3000/corrective';
+const url = 'http://localhost:3001/corrective';
 
 function getCorrectives () {
     const main = document.querySelector('main');
