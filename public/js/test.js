@@ -1,4 +1,4 @@
-const url = 'http://localhost:3001/corrective';
+const url = 'http://localhost:3001/expiry';
 
 function getCorrectives () {
     const main = document.querySelector('main');
@@ -31,4 +31,28 @@ function getCorrectives () {
     })
 }
 
-getCorrectives();
+// getCorrectives();
+
+// Send form to database
+const form = document.querySelector('form');
+form.addEventListener('submit', event => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const entry = {};
+    for (let field of formData.keys()) {
+        entry[field] = formData.get(field);
+    }
+    console.log(entry);
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(entry),
+    })
+    .then(response => response.json())
+    .then(createdEntry => {
+        console.log(createdEntry);
+        // getCorrectives();
+    });
+});

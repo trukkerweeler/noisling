@@ -45,6 +45,50 @@ router.get('/', (req, res) => {
 
 });
 
+// Insert a new expiry record
+router.post('/', (req, res) => {
+    const expiry = req.body;
+    console.log(expiry);
+
+    try {
+        const connection = mysql.createConnection({
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASS,
+            port: 3306,
+            database: 'quality'
+        });
+        connection.connect(function(err) {
+            if (err) {
+                console.error('Error connecting: ' + err.stack);
+                return;
+            }
+        console.log('Connected to DB');
+
+        const query = 'INSERT INTO EXPIRATION (EXPIRATION_ID, PRODUCT_ID, EXPIRY, LOT, DISPOSITION, COMMENT) VALUES ("0000004", "' + expiry.product_id + '", "' + expiry.expiration_date + '", "' + expiry.lotno + '", "' + expiry.disposition + '", "' + expiry.comments + '")';
+        connection.query(query, (err, rows, fields) => {
+            if (err) {
+                console.log('Failed to query for corrective actions: ' + err);
+                res.sendStatus(500);
+
+                return;
+            }
+            res.json(rows);
+        });
+
+        connection.end();
+        });
+    } catch (err) {
+        console.log('Error connecting to Db');
+        return;
+    }
+    document.getElementById("expiryForm").reset();
+});
+
+
+
+
+
 // Flip the closed status of a corrective action
 router.post('/:id/flip', (req, res) => {
     const correctiveId = req.params.id;
