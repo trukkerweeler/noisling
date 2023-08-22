@@ -1,12 +1,18 @@
 GET http://localhost:3001/expiry
 ###
 
-POST http://localhost:3001/expiry
+POST http://localhost:3001/expiry HTTP/1.1
+content-type: application/json
+
 {
-    EXPIRATION_ID: '0000003',
-    PRODUCT_ID: 'test3',
-    EXPIRY: '2023-02-01',
-    LOT: 'test3lot',
-    DISPOSITION: '',
-    COMMENT: ''
+    "expiration_id": "0000007",
+    "product_id": "test7",
+    "expiration_date": "2021-02-01",
+    "lotno": "test7lot",
+    "disposition": "",
+    "comments": ""
 }
+
+###
+GET http://localhost:3001/expiry/nextId
+###
