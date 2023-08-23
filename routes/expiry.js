@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASS,
-            port: 3306,
+            port: process.env.PORT,
             database: 'quality'
         });
         connection.connect(function(err) {
@@ -55,7 +55,7 @@ router.post('/', (req, res) => {
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASS,
-            port: 3306,
+            port: PORT,
             database: 'quality'
         });
         connection.connect(function(err) {
@@ -108,7 +108,7 @@ router.put('/:id', (req, res) => {
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASS,
-            port: 3306,
+            port: PORT,
             database: 'quality'
         });
         connection.connect(function(err) {
@@ -145,7 +145,7 @@ router.get('/nextId', (req, res) => {
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASS,
-            port: 3306,
+            port: PORT,
             database: 'quality'
         });
         connection.connect(function(err) {
@@ -200,7 +200,7 @@ router.put('/increment', async (req, res) => {
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASS,
-            port: 3306,
+            port: PORT,
             database: 'quality'
         });
         connection.connect(function(err) {
