@@ -68,7 +68,7 @@ router.post('/', (req, res) => {
         const query = 'INSERT INTO EXPIRATION (EXPIRATION_ID, PRODUCT_ID, EXPIRY, LOT, DISPOSITION, COMMENT) VALUES ("' + expiry.expiration_id + '", "' + expiry.product_id + '", "' + expiry.expiration_date + '", "' + expiry.lotno + '", "' + expiry.disposition + '", "' + expiry.comments + '")';
         connection.query(query, (err, rows, fields) => {
             if (err) {
-                console.log('Failed to query for corrective actions: ' + err);
+                console.log('Failed to query for insert expiry: ' + err);
                 res.sendStatus(500);
 
                 return;
@@ -77,6 +77,15 @@ router.post('/', (req, res) => {
         
         });
 
+        const updateQuery = 'UPDATE SYSTEM_IDS SET CURRENT_ID = "' + expiry.expiration_id + '" WHERE TABLE_NAME = "EXPIRATION"';
+        connection.query(updateQuery, (err, rows, fields) => {
+            if (err) {
+                console.log('Failed to query for insert system ids: ' + err);
+                res.sendStatus(500);
+                return;
+            }
+        });
+        
         connection.end();
         });
     } catch (err) {
@@ -178,11 +187,13 @@ router.get('/nextId', (req, res) => {
     }
 });
 
-
-// ========================================
-// Flip the closed status of a corrective action
-router.post('/:id/flip', (req, res) => {
-    const correctiveId = req.params.id;
+// Update expiry record next ID
+// Should this really call the existing value instead of the one passed in?
+router.put('/increment', async (req, res) => {
+    console.log(req.body);
+    let nextId = req.body['nextId'];
+    // let nextId = parseInt(lastid) + 1;
+    // nextId = nextId.toString().padStart(7, '0');
 
     try {
         const connection = mysql.createConnection({
@@ -199,37 +210,23 @@ router.post('/:id/flip', (req, res) => {
             }
         console.log('Connected to DB');
 
-        const query = 'select CLOSED from CORRECTIVE where CORRECTIVE_ID = ' + correctiveId;
+        const query = 'UPDATE SYSTEM_IDS SET CURRENT_ID = "' + nextId + '" WHERE TABLE_NAME = "EXPIRATION"';
         connection.query(query, (err, rows, fields) => {
             if (err) {
-                console.log('Failed to query for corrective actions: ' + err);
+                console.log('Failed to update for expiry: ' + err);
                 res.sendStatus(500);
                 return;
             }
-            const currentClosed = rows[0].CLOSED;
-            const newClosed = currentClosed === 'Y' ? '' : 'Y';
-            const updateQuery = 'UPDATE CORRECTIVE SET CLOSED = "' + newClosed + '" WHERE CORRECTIVE_ID = ' + correctiveId;
-            connection.query(updateQuery, (err, rows, fields) => {
-                if (err) {
-                    console.log('Failed to query for corrective actions: ' + err);
-                    res.sendStatus(500);
-                    return;
-                }
-                res.redirect(303, '/');
-                connection.end();
-            });
+            res.status(204).send();
         });
-        
-        });
-    
 
-    // res.send('Hello Corrective!');
+        connection.end();
+        });
     } catch (err) {
         console.log('Error connecting to Db');
         return;
     }
 });
-
 
 
 module.exports = router;

@@ -1,14 +1,35 @@
-const { get } = require("../../routes/expiry");
+// const { get } = require("../../routes/expiry");
 
 const url = 'http://localhost:3001/expiry';
 
-let nextId = getNextId();
-function getNextId() {
+async function incrementNextId(nextId) {
+    try {
+        await fetch(url + '/increment', {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(nextId),
+        });
+        const json = await response.json();
+        console.log('Success:', JSON.stringify(json));
+    } catch (err) {
+        console.log('Error:', err);
+    }
+}
+
+
+// let nextId = getNextId();
+// console.log(nextId);
+
+async function getNextId() {
     try{ 
-    fetch(url + '/nextId', { method: 'GET' })    
+    const nextId = await fetch(url + '/nextId', { method: 'GET' })    
     .then(response => response.json())
     .then(data => {
-        console.log(typeof(data));        
+        JSON.stringify(data);
+        // console.log(typeof(data));
+        // console.log(data);      
         return data;
     });
     } catch (err) {
@@ -18,11 +39,17 @@ function getNextId() {
 
 // Send form to database
 const form = document.querySelector('form');
-form.addEventListener('submit', event => {
+form.addEventListener('submit', async event => {
     event.preventDefault();
     const formData = new FormData(form);
     const entry = {};
-    entry['EXPIRATION_ID'] = getNextId();
+    const nextId = await fetch(url + '/nextId', { method: 'GET' })
+    .then(response => response.json())
+    .then(data => {
+        JSON.stringify(data);     
+        return data;
+    });
+    entry['expiration_id'] = nextId;
 
     for (let field of formData.keys()) {
         entry[field] = formData.get(field);
@@ -35,9 +62,7 @@ form.addEventListener('submit', event => {
         },
         body: JSON.stringify(entry),
     })
-    .then(response => response.json())
-    .then(createdEntry => {
-        console.log(createdEntry);
-        // getCorrectives();
-    });
+    
+    // reset the form
+    document.getElementById("entryform").reset();
 });
