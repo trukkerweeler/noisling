@@ -1,4 +1,4 @@
-require("dotenv").config();
+// require("dotenv").config();
 
 const exp = require("constants");
 const cors = require("cors");
@@ -20,5 +20,6 @@ const expiryRoutes = require("./routes/expiry");
 app.use("/expiry", expiryRoutes);
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  // console.log(`Example app listening at http://localhost:${port}`);
+  
 });
