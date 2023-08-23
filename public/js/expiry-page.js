@@ -1,11 +1,13 @@
-require("dotenv").config();
+// require("dotenv").config();
 
-const dev = false;
-if (dev) {
-    const url = 'http://localhost:3001/expiry';
-} else {
-    const url = 'https://noisling.onrender.com/expiry';
-}
+// const dev = true;
+// if (dev) {
+    // const url = 'http://localhost:3001/expiry';
+// } else {
+//     const url = 'https://noisling.onrender.com/expiry';
+// }
+const url = 'http://localhost:3001/expiry';
+// const url = 'https://noisling.onrender.com/expiry';
 
 function getRecords () {
     const main = document.querySelector('main');
