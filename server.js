@@ -20,19 +20,5 @@ const expiryRoutes = require("./routes/expiry");
 app.use("/expiry", expiryRoutes);
 
 app.listen(port, () => {
-  //   try {
-  //     mysql
-  //       .createConnection({
-  //         host: process.env.DB_HOST,
-  //         user: process.env.DB_USER,
-  //         password: process.env.DB_PASS,
-  //         database: "quality",
-  //       })
-  //       .connect();
-  //     console.log(`Example app listening at http://localhost:${port}`);
-  //   } catch (err) {
-  //     console.log("Error connecting to Db");
-  //     return;
-  //   }
   console.log(`Example app listening at http://localhost:${port}`);
 });

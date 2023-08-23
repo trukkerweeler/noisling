@@ -1,7 +1,7 @@
 // const { get } = require("../../routes/expiry");
 
 // const url = 'http://localhost:3001/expiry';
-const url = 'https:noisling.onrender.com/expiry';
+const url = 'https://noisling.onrender.com/expiry';
 
 
 async function incrementNextId(nextId) {

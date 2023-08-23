@@ -1,5 +1,6 @@
 // const url = 'http://localhost:3001/expiry';
-const url = 'https:noisling.onrender.com/expiry';
+const url = 'https://noisling.onrender.com/expiry';
+
 
 function getRecords () {
     const main = document.querySelector('main');
