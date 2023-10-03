@@ -21,6 +21,6 @@ PUT http://localhost:3001/expiry/increment HTTP/1.1
 content-type: application/json
 
 {
-    "nextId": "0000009"
+    "nextId": "0000012"
 }
 ###
