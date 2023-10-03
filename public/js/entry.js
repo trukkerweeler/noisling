@@ -1,3 +1,6 @@
+import { loadHeaderFooter } from './utils.mjs';
+loadHeaderFooter();
+
 // require("dotenv").config();
 
 // const dev = true;
@@ -9,40 +12,40 @@
 // const url = 'http://localhost:3001/expiry';
 // const url = 'https://noisling.onrender.com/expiry';
 
-async function incrementNextId(nextId) {
-    try {
-        await fetch(url + '/increment', {
-            method: 'put',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(nextId),
-        });
-        const json = await response.json();
-        console.log('Success:', JSON.stringify(json));
-    } catch (err) {
-        console.log('Error:', err);
-    }
-}
+// async function incrementNextId(nextId) {
+//     try {
+//         await fetch(url + '/increment', {
+//             method: 'put',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(nextId),
+//         });
+//         const json = await response.json();
+//         console.log('Success:', JSON.stringify(json));
+//     } catch (err) {
+//         console.log('Error:', err);
+//     }
+// }
 
 
 // let nextId = getNextId();
 // console.log(nextId);
 
-async function getNextId() {
-    try{ 
-    const nextId = await fetch(url + '/nextId', { method: 'GET' })    
-    .then(response => response.json())
-    .then(data => {
-        JSON.stringify(data);
-        // console.log(typeof(data));
-        // console.log(data);      
-        return data;
-    });
-    } catch (err) {
-        console.log(err);
-    }
-}
+// async function getNextId() {
+//     try{ 
+//     const nextId = await fetch(url + '/nextId', { method: 'GET' })    
+//     .then(response => response.json())
+//     .then(data => {
+//         JSON.stringify(data);
+//         // console.log(typeof(data));
+//         // console.log(data);      
+//         return data;
+//     });
+//     } catch (err) {
+//         console.log(err);
+//     }
+// }
 
 // Send form to database
 const form = document.querySelector('form');
