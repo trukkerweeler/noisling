@@ -113,46 +113,141 @@ button.addEventListener('click', async (event) => {
             elemRpt.textContent = 'Expiry Detail';
             elemRpt.setAttribute('class', 'header');
 
+            // create edit button
+            const edtBtn = document.createElement('button');
+            edtBtn.setAttribute('data-open-modal', '');
+            edtBtn.setAttribute('type', 'button');
+            edtBtn.setAttribute('class', 'show');
+            edtBtn.textContent = 'Edit';
+
             detailSection.appendChild(eid);
             detailSection.appendChild(expCreateDate);
             detailSection.appendChild(pid);
             detailSection.appendChild(lotID);
             detailSection.appendChild(expExpiry);
             detailSection.appendChild(expDispo);
-            detailSection.appendChild(comments); 
+            detailSection.appendChild(comments);
+            // detailSection.appendChild(edtBtn);
+
+            // Create the form
+            const appendForm = document.createElement('form');
+            appendForm.setAttribute('id', 'appendForm');
+
+            // Create Disposition selection
+            const appendLabelD = document.createElement('label');
+            appendLabelD.setAttribute('for', 'disposition');
+            appendLabelD.textContent = 'Disposition';
+            const appendInputD = document.createElement('input');
+            // Create a select element
+            const appendSelectD = document.createElement('select');
+            appendSelectD.setAttribute('name', 'disposition');
+            appendSelectD.setAttribute('id', 'disposition');
+            // Create options
+            const appendOptionD0 = document.createElement('option');
+            const appendOptionD1 = document.createElement('option');
+            appendOptionD1.setAttribute('value', 'D');
+            appendOptionD1.textContent = 'Disposed';
+            const appendOptionD2 = document.createElement('option');
+            appendOptionD2.setAttribute('value', 'G');
+            appendOptionD2.textContent = 'Gone/Not Found';
+            const appendOptionD3 = document.createElement('option');
+            appendOptionD3.setAttribute('value', 'O');
+            appendOptionD3.textContent = 'Other';
+
+            //  append child nodes to the select element
+            appendSelectD.appendChild(appendOptionD0);
+            appendSelectD.appendChild(appendOptionD1);
+            appendSelectD.appendChild(appendOptionD2);
+            appendSelectD.appendChild(appendOptionD3);
+            
+            // append child nodes to the form
+            appendForm.appendChild(appendLabelD);
+            appendForm.appendChild(appendSelectD);
+
+            // Create Comment field
+            const appendLabelC = document.createElement('label');
+            appendLabelC.setAttribute('for', 'comment');
+            appendLabelC.textContent = 'Comment';
+            const appendInputC = document.createElement('input');
+            appendInputC.setAttribute('type', 'textarea');
+            appendInputC.setAttribute('name', 'comment');
+            appendInputC.setAttribute('id', 'comment');
+            appendInputC.setAttribute('placeholder', 'Enter comment');            
+            
+            // create button
+            const appendButton = document.createElement('button');
+            appendButton.setAttribute('type', 'submit');
+            appendButton.setAttribute('id', 'appendButton');
+            appendButton.textContent = 'Submit';
+
+            // Append child nodes to the form
+            appendForm.appendChild(appendLabelC);
+            appendForm.appendChild(appendInputC);
+            // appendForm.appendChild(appendButton);
+            
 
             main.appendChild(elemRpt);
             main.appendChild(elemId);
             main.appendChild(detailSection);
+            // main.appendChild(appendForm);
+            
         }
-        // main.appendChild(detailSection);
-
-        // const editButton = document.createElement('button');
-        // editButton.setAttribute('class', 'edit');
-        // editButton.setAttribute('id', 'edit');
-        // editButton.textContent = 'Edit';
-        // main.appendChild(editButton);
-        // main.appendChild(detailSection);
-
     });
 });
 
 
 // Listen for edit button click
-const edit = document.getElementById('edit');
-edit.addEventListener('click', (event) => {
-    event.preventDefault();
-    console.log('Edit button clicked');
-    // console.log(expidValue);
-    // window.location.href = 'http://localhost:3001/expiry/edit/' + expidValue;
+const openButton = document.getElementById('data-open-modal');
+const submitButton = document.getElementById('appendButton');
+const closeButton = document.getElementById('data-close-modal');
+const modal = document.querySelector("[data-modal]");
 
-    const editExpiry = document.createElement('dialog');
-    editExpiry.setAttribute('id', 'editExpiry');
-    editExpiry.setAttribute('class', 'dialog');
-    editExpiry.setAttribute('open', 'open');
-    const editForm = document.createElement('form');
-    editForm.setAttribute('id', 'editForm');
-    editForm.setAttribute('class', 'form');
-    const editSection = document.createElement('section');
+openButton.addEventListener('click', (event) => {
+    modal.showModal();
 
 });
+
+closeButton.addEventListener('click', (event) => {
+    modal.close();
+});
+
+submitButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    modal.close();
+    // console.log('submit button clicked');
+    const expid = document.querySelector('#expid');
+    const expidValue = expid.value;
+    let longExpidValue = expidValue.padStart(7, '0');
+    const disposition = document.querySelector('#disposition');
+    const dispositionValue = disposition.value;
+    const comment = document.querySelector('#comment');
+    const commentValue = comment.value;
+    console.log(longExpidValue);
+    console.log(dispositionValue);
+    console.log(commentValue);
+
+    const url = 'http://localhost:3001/expiry/' + longExpidValue;
+    console.log(url);
+
+    const data = {
+        disposition: dispositionValue,
+        comment: commentValue
+    };
+
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        alert('Record updated successfully');
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+});
+

@@ -19,9 +19,25 @@
         <label for="search">Enter Expiry Id:</label>
         <input type="text" name="search" id="expid" value="12">
         <button type="submit" id="detailsearch">Search</button>
+        <button id='data-open-modal' class="show" type="button">Edit</button>
     </form>
-    <main id="main"></main>
-    <button id="edit" class="edit">Edit</button>
+    <dialog data-modal class="modal">
+            <form id="appendForm" action="submit">
+            <label for="disposition">Disposition</label>
+            <select name="disposition" id="disposition">
+                <option value=""></option>
+                <option value="D">Disposed</option>
+                <option value="G">Gone/Not Found</option>
+                <option value="O">Other</option>
+            </select>
+            <label for="comment">Comment</label>
+            <input type="textarea" name="comment" id="comment" placeholder="Enter comment">
+            <button data-submit-modal type="submit" id="appendButton">Submit</button>
+            <button id="data-close-modal"  formmethod="dialog">Close</button>
+        </form>
+    </dialog>
+    <main id="main">       
+    </main>
     <footer id="footer"></footer>
     
 </body>

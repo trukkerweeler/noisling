@@ -185,8 +185,10 @@ router.put('/:id', (req, res) => {
     // console.log(req.body);
     disposition = req.body['disposition'];
     // console.log(disposition);
-    expiry_id = req.body['id'];
+    expiry_id = req.params['id'];
     // console.log(expiry_id);
+    comments = req.body['comment'];
+    // console.log(comments);
 
     try {
         const connection = mysql.createConnection({
@@ -201,10 +203,11 @@ router.put('/:id', (req, res) => {
                 console.error('Error connecting: ' + err.stack);
                 return;
             }
-        // console.log('Connected to DB');
-
+        // console.log('Connected to DB 204');
+        if (disposition !== '') {
         const query = 'UPDATE EXPIRATION SET DISPOSITION = "' + disposition + '" WHERE EXPIRATION_ID = "' + expiry_id + '"';
         // const query = 'UPDATE EXPIRATION SET PRODUCT_ID = "' + expiry.product_id + '", EXPIRY = "' + expiry.expiration_date + '", LOT = "' + expiry.lotno + '", DISPOSITION = "' + expiry.disposition + '", COMMENT = "' + expiry.comments + '" WHERE EXPIRATION_ID = "' + expiry.expiry_id + '"';
+        // console.log(query);
         connection.query(query, (err, rows, fields) => {
             if (err) {
                 console.log('Failed to update for expiry: ' + err);
@@ -213,59 +216,32 @@ router.put('/:id', (req, res) => {
             }
             // res.json(rows);
         });
-
-        connection.end();
-        });
-    } catch (err) {
-        console.log('Error connecting to Db 142');
-        return;
-    }
-});
-
-
-// Update expiry record next ID
-// Should this really call the existing value instead of the one passed in?
-router.put('/increment', async (req, res) => {
-    console.log(req.body);
-    let newId = req.body['nextId'];
-    // let newId = parseInt(lastid) + 1;
-    // newId = newId.toString().padStart(7, '0');
-
-    try {
-        const connection = mysql.createConnection({
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASS,
-            port: PORT,
-            database: 'quality'
-        });
-        connection.connect(function(err) {
-            if (err) {
-                console.error('Error connecting: ' + err.stack);
-                return;
-            }
-        console.log('Connected to DB 245');
-        if (newId === '') {
-        const query = 'UPDATE SYSTEM_IDS SET CURRENT_ID = "' + newId + '" WHERE TABLE_NAME = "EXPIRATION"';
-        connection.query(query, (err, rows, fields) => {
-            if (err) {
-                console.log('Failed to update for expiry: ' + err);
-                res.sendStatus(500);
-                return;
-            }
-            res.status(204).send();
-        });
-        } else {
-            res.status(204).send();
         }
 
+        if (comments !== '') {
+            const query = 'UPDATE EXPIRATION SET COMMENT = "' + comments + '" WHERE EXPIRATION_ID = "' + expiry_id + '"';
+            // console.log(query);
+            // const query = 'UPDATE EXPIRATION SET PRODUCT_ID = "' + expiry.product_id + '", EXPIRY = "' + expiry.expiration_date + '", LOT = "' + expiry.lotno + '", DISPOSITION = "' + expiry.disposition + '", COMMENT = "' + expiry.comments + '" WHERE EXPIRATION_ID = "' + expiry.expiry_id + '"';
+            connection.query(query, (err, rows, fields) => {
+                if (err) {
+                    console.log('Failed to update for expiry: ' + err);
+                    res.sendStatus(500);
+                    return;
+                }
+                // res.json(rows);
+            });
+        }
+
+
         connection.end();
         });
     } catch (err) {
-        console.log('Error connecting to Db 233');
+        console.log('Error connecting to Db 220');
         return;
     }
 });
+
+
 
 
 module.exports = router;
