@@ -172,24 +172,24 @@ router.put('/:id', (req, res) => {
             }
         // console.log('Connected to DB 204');
         if (disposition !== '') {
-        const query = 'UPDATE EXPIRATION SET DISPOSITION = "' + disposition + '" WHERE EXPIRATION_ID = "' + expiry_id + '"';
-        // const query = 'UPDATE EXPIRATION SET PRODUCT_ID = "' + expiry.product_id + '", EXPIRY = "' + expiry.expiration_date + '", LOT = "' + expiry.lotno + '", DISPOSITION = "' + expiry.disposition + '", COMMENT = "' + expiry.comments + '" WHERE EXPIRATION_ID = "' + expiry.expiry_id + '"';
-        // console.log(query);
-        connection.query(query, (err, rows, fields) => {
-            if (err) {
-                console.log('Failed to update for expiry: ' + err);
-                res.sendStatus(500);
-                return;
-            }
-            // res.json(rows);
-        });
+            const query = 'UPDATE EXPIRATION SET DISPOSITION = "' + disposition + '" WHERE EXPIRATION_ID = "' + expiry_id + '"';
+            // const query = 'UPDATE EXPIRATION SET PRODUCT_ID = "' + expiry.product_id + '", EXPIRY = "' + expiry.expiration_date + '", LOT = "' + expiry.lotno + '", DISPOSITION = "' + expiry.disposition + '", COMMENT = "' + expiry.comments + '" WHERE EXPIRATION_ID = "' + expiry.expiry_id + '"';
+            // console.log(query);
+            connection.query(query, (err, rows, fields) => {
+                if (err) {
+                    console.log('Failed to update for expiry: ' + err);
+                    res.sendStatus(500);
+                    return;
+                }
+                // res.json(rows);
+            });
         }
 
         if (comments !== '') {
             const query = 'UPDATE EXPIRATION SET COMMENT = CONCAT_WS(CHAR(10 using utf8mb4), CONCAT("' + user + '", " - ", "' + myTimeStamp + '" ), "' + comments + '", "' + previousComments + '") WHERE EXPIRATION_ID = "' + expiry_id + '"';
             // const query = 'UPDATE EXPIRATION SET COMMENT = CONCAT_WS(CHAR(10 using utf8mb4), CONCAT(@user, " - ", @righnow), @comments, @prevcommt) WHERE EXPIRATION_ID = "' + expiry_id + '"';
-            console.log(query);
-            // const query = 'UPDATE EXPIRATION SET PRODUCT_ID = "' + expiry.product_id + '", EXPIRY = "' + expiry.expiration_date + '", LOT = "' + expiry.lotno + '", DISPOSITION = "' + expiry.disposition + '", COMMENT = "' + expiry.comments + '" WHERE EXPIRATION_ID = "' + expiry.expiry_id + '"';
+            // console.log(query);
+            
             connection.query(query, (err, rows, fields) => {
                 if (err) {
                     console.log('Failed to update for expiry: ' + err);
@@ -204,7 +204,7 @@ router.put('/:id', (req, res) => {
         connection.end();
         });
     } catch (err) {
-        console.log('Error connecting to Db 220');
+        console.log('Error connecting to Db 207');
         return;
     }
 });

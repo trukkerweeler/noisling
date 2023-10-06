@@ -225,6 +225,8 @@ submitButton.addEventListener('click', (event) => {
     const dispositionValue = disposition.value;
     const comment = document.querySelector('#comment');
     const commentValue = comment.value;
+
+
     // console.log(longExpidValue);
     // console.log("Disposition: " + dispositionValue);
     // console.log(commentValue);
