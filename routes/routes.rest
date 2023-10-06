@@ -12,9 +12,9 @@ content-type: application/json
     "disposition": "",
     "comments": ""
 }
-
 ###
-GET http://localhost:3001/expiry/nextId
+
+GET http://localhost:3001/sysid/nextId
 ###
 
 PUT http://localhost:3001/expiry/increment HTTP/1.1

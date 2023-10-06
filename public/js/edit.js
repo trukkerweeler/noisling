@@ -96,6 +96,7 @@ button.addEventListener('click', async (event) => {
             expDispo.setAttribute('class', 'tbl');
 
             const comments = document.createElement('p');
+            comments.setAttribute('id', 'exstcmmt');
             if (record[key]['COMMENT'] === null) {
                 comments.textContent = 'Comments:' + ' ' + '';
             }
@@ -218,21 +219,40 @@ submitButton.addEventListener('click', (event) => {
     const expid = document.querySelector('#expid');
     const expidValue = expid.value;
     let longExpidValue = expidValue.padStart(7, '0');
+    const oldCmmt = document.querySelector('#exstcmmt');
+    const oldCmmtValue = oldCmmt.textContent.slice(10, oldCmmt.textContent.length);
     const disposition = document.querySelector('#disposition');
     const dispositionValue = disposition.value;
     const comment = document.querySelector('#comment');
     const commentValue = comment.value;
-    console.log(longExpidValue);
-    console.log(dispositionValue);
-    console.log(commentValue);
+    // console.log(longExpidValue);
+    // console.log("Disposition: " + dispositionValue);
+    // console.log(commentValue);
 
     const url = 'http://localhost:3001/expiry/' + longExpidValue;
     console.log(url);
 
+    // Create timestamped comment
+    const myDate = new Date();
+    myDate.setDate(myDate.getDate())
+    let myTimeStamp = myDate.toISOString().slice(0, 19).replace('T', ' ');
+    // console.log(myRequestDate);
+
+    // const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    // const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+    // const dateTime = date + ' ' + time;
+    // console.log(dateTime);
+    // let tsComment = dateTime + ' ' + commentValue;
+    // console.log(tsComment);
+
     const data = {
         disposition: dispositionValue,
-        comment: commentValue
+        comment: commentValue,
+        oldCmmt: oldCmmtValue,
+        user: 'TKENT',
+        ts: myTimeStamp
     };
+    // console.log(data);
 
     fetch(url, {
         method: 'PUT',

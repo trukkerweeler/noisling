@@ -19,6 +19,9 @@ app.use((req, res, next) => {
 const expiryRoutes = require("./routes/expiry");
 app.use("/expiry", expiryRoutes);
 
+const sysidRoutes = require("./routes/sysid");
+app.use("/sysid", sysidRoutes);
+
 app.listen(port, () => {
   // console.log(`Example app listening at http://localhost:${port}`);
   

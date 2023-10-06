@@ -146,7 +146,7 @@ p.tbl {
 }
 #appendForm {
     display: grid;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 70% 30%;
     margin: 2rem auto;
     padding: 1rem;
     background-color: var(--text-color-light);
@@ -182,4 +182,12 @@ p.tbl {
 
 .header {
     grid-column: 1/-1;
+}
+
+#appendForm label:nth-child(3){
+    grid-column: 1/-1;
+}
+input#comment{
+    grid-column: 1/-1;
+    min-height: 60px;
 }

@@ -3,6 +3,7 @@ loadHeaderFooter();
 
 // require("dotenv").config();
 const url = 'http://localhost:3001/expiry';
+const sysurl = 'http://localhost:3001/sysid';
 
 
 // const dev = true;
@@ -57,9 +58,9 @@ form.addEventListener('submit', async event => {
     const formData = new FormData(form);
     const entry = {};
 
-    console.log(url + '/nextId');
+    console.log(sysurl + '/nextId');
 
-    const nextId = await fetch(url + '/nextId', { method: 'GET' })
+    const nextId = await fetch(sysurl + '/nextId', { method: 'GET' })
     .then(response => response.json())
     .then(data => {
         JSON.stringify(data);

@@ -5,46 +5,6 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 
-// Get the next ID for a new expiry record
-router.get('/nextId', (req, res) => {
-    // res.json('0000005');
-    // console.log('nextId router');
-    try {
-        const connection = mysql.createConnection({
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASS,
-            port: 3306,
-            database: 'quality'
-        });
-        connection.connect(function(err) {
-            if (err) {
-                console.error('Error connecting: ' + err.stack);
-                return;
-            }
-        // console.log('Connected to DB');
-
-        const query = 'SELECT CURRENT_ID FROM SYSTEM_IDS where TABLE_NAME = "EXPIRATION"';
-        connection.query(query, (err, rows, fields) => {
-            if (err) {
-                console.log('Failed to query for corrective actions: ' + err);
-                res.sendStatus(500);
-                return;
-            }
-            const nextId = parseInt(rows[0].CURRENT_ID) + 1;
-            let dbNextId = nextId.toString().padStart(7, '0');
-
-            res.json(dbNextId);
-        });    
-
-        connection.end();
-        });
-    } catch (err) {
-        console.log('Error connecting to Db 43');
-        return;
-    }
-});
-
 
 // Get a single expiry record
 router.get('/:id', (req, res) => {
@@ -61,7 +21,7 @@ router.get('/:id', (req, res) => {
                 console.error('Error connecting: ' + err.stack);
                 return;
             }
-        console.log('Connected to DB 64');
+        console.log('Connected to DB 64, get single record');
 
         const query = `SELECT * from EXPIRATION where EXPIRATION_ID = "${req.params.id}"`;
 
@@ -182,6 +142,7 @@ router.post('/', (req, res) => {
 
 // Update an expiry record
 router.put('/:id', (req, res) => {
+    // console.log("PUT request");
     // console.log(req.body);
     disposition = req.body['disposition'];
     // console.log(disposition);
@@ -189,7 +150,13 @@ router.put('/:id', (req, res) => {
     // console.log(expiry_id);
     comments = req.body['comment'];
     // console.log(comments);
+    previousComments = req.body['oldCmmt'];
+    // console.log(previousComments);
+    user = req.body['user'];
+    // console.log(user);
+    myTimeStamp = req.body['ts'];
 
+    
     try {
         const connection = mysql.createConnection({
             host: process.env.DB_HOST,
@@ -219,8 +186,9 @@ router.put('/:id', (req, res) => {
         }
 
         if (comments !== '') {
-            const query = 'UPDATE EXPIRATION SET COMMENT = "' + comments + '" WHERE EXPIRATION_ID = "' + expiry_id + '"';
-            // console.log(query);
+            const query = 'UPDATE EXPIRATION SET COMMENT = CONCAT_WS(CHAR(10 using utf8mb4), CONCAT("' + user + '", " - ", "' + myTimeStamp + '" ), "' + comments + '", "' + previousComments + '") WHERE EXPIRATION_ID = "' + expiry_id + '"';
+            // const query = 'UPDATE EXPIRATION SET COMMENT = CONCAT_WS(CHAR(10 using utf8mb4), CONCAT(@user, " - ", @righnow), @comments, @prevcommt) WHERE EXPIRATION_ID = "' + expiry_id + '"';
+            console.log(query);
             // const query = 'UPDATE EXPIRATION SET PRODUCT_ID = "' + expiry.product_id + '", EXPIRY = "' + expiry.expiration_date + '", LOT = "' + expiry.lotno + '", DISPOSITION = "' + expiry.disposition + '", COMMENT = "' + expiry.comments + '" WHERE EXPIRATION_ID = "' + expiry.expiry_id + '"';
             connection.query(query, (err, rows, fields) => {
                 if (err) {
